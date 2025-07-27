@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot 2</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+    <script type="text/babel">
+      const App = () => {
+        const [chatMessages, setChatMessages] = React.useState([
+          {
+            id: "id1",
+            message: "hello chatbot",
+            sender: "user",
+          },
+          {
+            id: "id2",
+            message: "Hello! How can I help you?",
+            sender: "bot",
+          },
+          {
+            id: "id3",
+            message: "can you get me todays date?",
+            sender: "user",
+          },
+          {
+            id: "id4",
+            message: "Today is July 14",
+            sender: "bot",
+          },
+        ]);
+
+        return (
+          <div>
+            <ChatInput
+              chatMessages={chatMessages}
+              setChatMessages={setChatMessages}
+            />
+            <ChatMessages chatMessages={chatMessages} />
+          </div>
+        );
+      };
+
+      function ChatInput(props) {
+        const [inputText, setInputText] = React.useState("");
+        const [isLoading, setIsLoading] = React.useState(false);
+        const { chatMessages, setChatMessages } = props;
+
+        function saveInputText(event) {
+          // event.target represents the element or component that we are interacting with
+          setInputText(event.target.value);
+        }
+
+        async function sendMessage() {
+          // Prevent sending another message if one is still loading, or if there is no inputText value
+          if (inputText === "" || isLoading) {
+            return;
+          }
+
+          setInputText("");
+          setIsLoading(true);
+
+          //   Send user message
+          setChatMessages((prevChatMessages) => [
+            ...prevChatMessages,
+            {
+              id: crypto.randomUUID(),
+              message: inputText,
+              sender: "user",
+            },
+            {
+              // Use a fixed id for loading message so we can later identify it and replace it when the actual response arrives
+              id: "loading",
+              message: "Loading...",
+              sender: "bot",
+            },
+          ]);
+
+          const response = await Chatbot.getResponseAsync(inputText);
+
+          //   send bot message
+          setChatMessages((prevChatMessages) => [
+            // return chatMessages but remove the loading... one
+            ...prevChatMessages.filter((message) => message.id !== "loading"),
+            {
+              id: crypto.randomUUID(),
+              message: response,
+              sender: "bot",
+            },
+          ]);
+
+          setIsLoading(false);
+        }
+
+        function handleKeyDown(event) {
+          if (event.key === "Enter") {
+            sendMessage();
+          } else if (event.key === "Escape") {
+            setInputText("");
+          }
+        }
+
+        return (
+          <>
+            <input
+              placeholder="Send a message to Chatbot"
+              size="30"
+              value={inputText}
+              onChange={saveInputText}
+              onKeyDown={handleKeyDown}
+            />
+            <button onClick={sendMessage}>Send</button>
+          </>
+        );
+      }
+
+      function ChatMessage(props) {
+        const { message, sender } = props;
+
+        return (
+          <div>
+            {sender === "bot" && (
+              <img src="../robot.png" alt="avatar" width="50" />
+            )}
+            <span>{message}</span>
+            {sender === "user" && (
+              <img src="../user.png" alt="avatar" width="50" />
+            )}
+          </div>
+        );
+      }
+
+      function ChatMessages(props) {
+        const { chatMessages } = props;
+
+        return (
+          <>
+            {chatMessages.map((chatMessage) => {
+              const { id, message, sender } = chatMessage;
+
+              return <ChatMessage key={id} message={message} sender={sender} />;
+            })}
+          </>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>
