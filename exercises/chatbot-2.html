@@ -31,7 +31,7 @@
       .chat-input-container {
         display: flex;
         align-items: center;
-        margin-top: 1.8rem;
+        margin-bottom: 3.2rem;
       }
 
       .app-container {
@@ -67,7 +67,7 @@
         flex-direction: column;
         gap: 1.2rem;
         flex: 1;
-        margin-bottom: 1.8rem;
+        margin-top: 1.8rem;
 
         overflow: scroll;
         scrollbar-width: none;
@@ -115,11 +115,11 @@
 
         return (
           <div className="app-container">
+            <ChatMessages chatMessages={chatMessages} />
             <ChatInput
               chatMessages={chatMessages}
               setChatMessages={setChatMessages}
             />
-            <ChatMessages chatMessages={chatMessages} />
           </div>
         );
       };
@@ -230,9 +230,20 @@
 
       function ChatMessages(props) {
         const { chatMessages } = props;
+        // A ref is a container with special React features
+        const chatMessagesRef = React.useRef(null); // The useRef hook allows us to automatically save an HTML element from a component
+        // This useEffect hook will run everytime the component is rendered or updated
+        // The dependency array helps us control how and when the useEffect hook is run
+        // The .current property on chatMessagesRef refers to the HTML element
+        React.useEffect(() => {
+          const containerEl = chatMessagesRef.current;
+          if (containerEl) {
+            containerEl.scrollTop = containerEl.scrollHeight;
+          }
+        }, [chatMessages]);
 
         return (
-          <div className="chat-messages-container">
+          <div className="chat-messages-container" ref={chatMessagesRef}>
             {chatMessages.map((chatMessage) => {
               const { id, message, sender } = chatMessage;
 
