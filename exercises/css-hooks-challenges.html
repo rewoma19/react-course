@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        height: 100vh;
+        margin: 0;
+        font-family: sans-serif;
+        padding: 2rem;
+      }
+
+      .app-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        font-weight: 500;
+      }
+
+      .inputs-container {
+        display: flex;
+        /* align-items: center; */
+        gap: 0.8rem;
+      }
+
+      .inputs-container input {
+        border: 1px solid;
+        border-radius: 8px;
+        padding: 0.6rem;
+      }
+
+      .password-container {
+        display: flex;
+        /* align-items: center; */
+        gap: 0.5rem;
+      }
+
+      .password-toggle {
+        padding: 0.4rem 1rem;
+        border: 1px solid;
+        border-radius: 8px;
+      }
+
+      .auth-btns-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .auth-btn {
+        background-color: rgb(0, 123, 255);
+        color: #fff;
+        padding: 0.5rem 1.2rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+    </style>
+    <title>Css Hooks Challenges</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function App() {
+        const [showPassword, setShowPassword] = React.useState(false);
+
+        function togglePassword() {
+          setShowPassword((prevShowPassword) => !prevShowPassword);
+        }
+
+        const passwordBtnText = showPassword ? "Hide" : "Show";
+
+        return (
+          <div className="app-container">
+            <h1>Hello, welcome to my website</h1>
+            <div className="inputs-container">
+              <input type="email" placeholder="Email" name="" id="" />
+              <div className="password-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  name=""
+                  id=""
+                />
+                <button className="password-toggle" onClick={togglePassword}>
+                  {passwordBtnText}
+                </button>
+              </div>
+            </div>
+            <div className="auth-btns-container">
+              <button className="auth-btn">Login</button>
+              <button className="auth-btn">Sign up</button>
+            </div>
+          </div>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>
