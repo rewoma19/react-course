@@ -3,6 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .toggle-button {
+        text-transform: uppercase;
+        border: none;
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        background-color: rgb(25, 135, 84);
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .red-bg {
+        background-color: rgb(220, 53, 69);
+      }
+    </style>
     <title>CSS and Hooks Exercises</title>
   </head>
   <body>
@@ -12,7 +27,24 @@
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
       function App() {
-        return <></>;
+        const [isButtonOn, setIsButtonOn] = React.useState(false);
+
+        function handleButtonToggle() {
+          setIsButtonOn((prevIsButtonOn) => !prevIsButtonOn);
+        }
+
+        const btnText = isButtonOn ? "On" : "Off";
+
+        return (
+          <>
+            <button
+              className={`toggle-button ${!isButtonOn && "red-bg"}`}
+              onClick={handleButtonToggle}
+            >
+              {btnText}
+            </button>
+          </>
+        );
       }
 
       const container = document.querySelector(".js-container");
