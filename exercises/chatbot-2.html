@@ -228,19 +228,26 @@
         );
       }
 
-      function ChatMessages(props) {
-        const { chatMessages } = props;
+      function useAutoScroll(dependencies) {
         // A ref is a container with special React features
-        const chatMessagesRef = React.useRef(null); // The useRef hook allows us to automatically save an HTML element from a component
+        const containerRef = React.useRef(null); // The useRef hook allows us to automatically save an HTML element from a component
         // This useEffect hook will run everytime the component is rendered or updated
         // The dependency array helps us control how and when the useEffect hook is run
-        // The .current property on chatMessagesRef refers to the HTML element
+        // The .current property on containerRef refers to the HTML element
+
         React.useEffect(() => {
-          const containerEl = chatMessagesRef.current;
+          const containerEl = containerRef.current;
           if (containerEl) {
             containerEl.scrollTop = containerEl.scrollHeight;
           }
-        }, [chatMessages]);
+        }, dependencies);
+
+        return containerRef;
+      }
+
+      function ChatMessages(props) {
+        const { chatMessages } = props;
+        const chatMessagesRef = useAutoScroll([chatMessages]);
 
         return (
           <div className="chat-messages-container" ref={chatMessagesRef}>
