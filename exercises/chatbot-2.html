@@ -76,6 +76,15 @@
       .chat-message-profile {
         width: 2.8rem;
       }
+
+      .intro-text {
+        text-align: center;
+      }
+
+      .spinner {
+        width: 2.5rem;
+        margin: -15px;
+      }
     </style>
     <title>Chatbot 2</title>
   </head>
@@ -90,31 +99,16 @@
 
     <script type="text/babel">
       const App = () => {
-        const [chatMessages, setChatMessages] = React.useState([
-          {
-            id: "id1",
-            message: "hello chatbot",
-            sender: "user",
-          },
-          {
-            id: "id2",
-            message: "Hello! How can I help you?",
-            sender: "bot",
-          },
-          {
-            id: "id3",
-            message: "can you get me todays date?",
-            sender: "user",
-          },
-          {
-            id: "id4",
-            message: "Today is July 14",
-            sender: "bot",
-          },
-        ]);
+        const [chatMessages, setChatMessages] = React.useState([]);
 
         return (
           <div className="app-container">
+            {chatMessages.length === 0 && (
+              <p className="intro-text">
+                Welcome to the chatbot project! Send a message using the textbox
+                below.
+              </p>
+            )}
             <ChatMessages chatMessages={chatMessages} />
             <ChatInput
               chatMessages={chatMessages}
@@ -154,7 +148,13 @@
             {
               // Use a fixed id for loading message so we can later identify it and replace it when the actual response arrives
               id: "loading",
-              message: "Loading...",
+              message: (
+                <img
+                  className="spinner"
+                  src="/loading-spinner.gif"
+                  alt="loading-spinner"
+                />
+              ),
               sender: "bot",
             },
           ]);
