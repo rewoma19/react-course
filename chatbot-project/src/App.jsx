@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ChatInput } from "./components/ChatInput";
-import "./App.css";
 import { ChatMessages } from "./components/ChatMessages";
 import { useAutoScroll } from "./hooks/useAutoScroll";
+import "./App.css";
 
 const App = () => {
   const [chatMessages, setChatMessages] = useState([]);
@@ -16,9 +16,7 @@ const App = () => {
           below.
         </p>
       )}
-      <div ref={containerRef} className="messages-container">
-        <ChatMessages chatMessages={chatMessages} />
-      </div>
+      <ChatMessages ref={containerRef} chatMessages={chatMessages} />
       <ChatInput
         chatMessages={chatMessages}
         setChatMessages={setChatMessages}
