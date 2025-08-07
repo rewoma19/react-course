@@ -3,7 +3,7 @@ import UserAvatar from "../assets/user.png";
 import "../styles/ChatMessage.css";
 
 export function ChatMessage(props) {
-  const { message, sender } = props;
+  const { message, sender, sendTime } = props;
 
   return (
     <div
@@ -16,7 +16,10 @@ export function ChatMessage(props) {
           alt="robot-profile-avatar"
         />
       )}
-      <span className="chat-message-text">{message}</span>
+      <div className="chat-message-text">
+        <span>{message}</span>
+        <span className="send-time">{sendTime}</span>
+      </div>
       {sender === "user" && (
         <img
           className="chat-message-profile"

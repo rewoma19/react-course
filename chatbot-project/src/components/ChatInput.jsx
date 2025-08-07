@@ -1,4 +1,5 @@
 import { useState } from "react";
+import dayjs from "dayjs";
 import { Chatbot } from "supersimpledev";
 import LoadingSpinner from "../assets/loading-spinner.gif";
 import "../styles/ChatInput.css";
@@ -13,6 +14,7 @@ export function ChatInput(props) {
   }
 
   async function sendMessage() {
+    const time = dayjs().valueOf();
     // Prevent sending another message if one is still loading, or if there is no inputText value
     if (inputText === "" || isLoading) {
       return;
@@ -28,6 +30,7 @@ export function ChatInput(props) {
         id: crypto.randomUUID(),
         message: inputText,
         sender: "user",
+        sendTime: dayjs(time).format("HH:mm"),
       },
       {
         // Use a fixed id for loading message so we can later identify it and replace it when the actual response arrives
@@ -49,6 +52,7 @@ export function ChatInput(props) {
         id: crypto.randomUUID(),
         message: response,
         sender: "bot",
+        sendTime: dayjs(time).format("HH:mm"),
       },
     ]);
 

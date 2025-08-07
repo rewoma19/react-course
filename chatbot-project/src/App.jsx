@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Chatbot } from "supersimpledev";
 import { ChatInput } from "./components/ChatInput";
 import { ChatMessages } from "./components/ChatMessages";
 import { useAutoScroll } from "./hooks/useAutoScroll";
@@ -7,6 +8,12 @@ import "./App.css";
 const App = () => {
   const [chatMessages, setChatMessages] = useState([]);
   const containerRef = useAutoScroll([chatMessages]);
+
+  useEffect(() => {
+    Chatbot.addResponses({
+      goodbye: "Goodbye. Have a great day!",
+    });
+  }, []);
 
   return (
     <div className="app-container">

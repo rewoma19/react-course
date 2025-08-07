@@ -9,9 +9,16 @@ export function ChatMessages(props) {
   return (
     <div className="chat-messages-container" ref={chatMessagesRef}>
       {chatMessages.map((chatMessage) => {
-        const { id, message, sender } = chatMessage;
+        const { id, message, sender, sendTime } = chatMessage;
 
-        return <ChatMessage key={id} message={message} sender={sender} />;
+        return (
+          <ChatMessage
+            key={id}
+            message={message}
+            sender={sender}
+            sendTime={sendTime}
+          />
+        );
       })}
     </div>
   );
