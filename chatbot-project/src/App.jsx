@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import { Chatbot } from "supersimpledev";
 import { ChatInput } from "./components/ChatInput";
 import { ChatMessages } from "./components/ChatMessages";
 import { useAutoScroll } from "./hooks/useAutoScroll";
@@ -11,13 +10,6 @@ const App = () => {
   );
   const containerRef = useAutoScroll([chatMessages]);
 
-  // useEffect(() => {
-  //   Chatbot.addResponses({
-  //     goodbye: "Goodbye. Have a great day!",
-  //   });
-  // }, []);
-
-  // save messages to local storage each time a new one is added
   useEffect(() => {
     localStorage.setItem("messages", JSON.stringify(chatMessages));
   }, chatMessages);
